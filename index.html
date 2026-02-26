@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rifa Profondos — Sala Neurososensorial | Centro Terapéutico</title>
+  <style>
+    :root{
+      --azul: #00B6FF;
+      --fucsia: #FF0080;
+      --bg1: #f3fbff;
+      --bg2: #fff5fb;
+      --card: rgba(255,255,255,.78);
+      --stroke: rgba(10,30,40,.14);
+      --text: rgba(10,20,30,.92);
+      --muted: rgba(10,20,30,.65);
+    }
+    *{ box-sizing: border-box; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background:
+        radial-gradient(1000px 700px at 10% 0%, rgba(0,182,255,.25), transparent 60%),
+        radial-gradient(900px 650px at 90% 10%, rgba(255,0,128,.18), transparent 55%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+      color: var(--text);
+      min-height: 100vh;
+    }
+    header{
+      padding: 22px 16px 12px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .badge{
+      padding: 12px 14px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(0,182,255,.18), rgba(255,0,128,.14));
+      border: 1px solid rgba(0,0,0,.10);
+      box-shadow: 0 14px 35px rgba(0,0,0,.10);
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      max-width: 640px;
+    }
+    .badge h1{ margin:0; font-size: 20px; line-height: 1.15; }
+    .badge p{ margin:0; color: var(--muted); font-size: 13px; }
+    .rule{
+      margin-top: 6px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(0,182,255,.10);
+      border: 1px dashed rgba(0,182,255,.45);
+      color: rgba(10,20,30,.86);
+      font-size: 13px;
+    }
+
+    main{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 16px 26px;
+    }
+
+    .toolbar{
+      display:flex;
+      gap:10px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      margin: 12px 0 14px;
+    }
+    .controls{
+      display:flex;
+      gap:10px;
+      flex-wrap: wrap;
+      align-items:center;
+    }
+    .pill{
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: 999px;
+      padding: 10px 12px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      box-shadow: 0 10px 22px rgba(0,0,0,.07);
+    }
+    .pill label{
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    input[type="text"]{
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-size: 14px;
+      width: 240px;
+    }
+    .btn{
+      cursor:pointer;
+      border: 1px solid rgba(0,0,0,.12);
+      background: rgba(255,255,255,.70);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-weight: 800;
+      letter-spacing: .2px;
+      transition: transform .08s ease, background .2s ease, border-color .2s ease;
+      user-select: none;
+      box-shadow: 0 10px 22px rgba(0,0,0,.07);
+    }
+    .btn:hover{ background: rgba(255,255,255,.88); }
+    .btn:active{ transform: translateY(1px); }
+    .btn-primary{
+      border-color: rgba(0,182,255,.55);
+      background: rgba(0,182,255,.16);
+    }
+    .btn-primary:hover{ background: rgba(0,182,255,.22); }
+    .btn-fucsia{
+      border-color: rgba(255,0,128,.55);
+      background: rgba(255,0,128,.14);
+    }
+    .btn-fucsia:hover{ background: rgba(255,0,128,.20); }
+
+    .stats{
+      display:flex;
+      gap:10px;
+      flex-wrap: wrap;
+      align-items:center;
+      justify-content:flex-end;
+    }
+    .stat{
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.70);
+      border: 1px solid rgba(0,0,0,.10);
+      box-shadow: 0 10px 22px rgba(0,0,0,.07);
+      font-size: 13px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .stat b{ color: var(--text); }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(10, minmax(0, 1fr));
+      gap: 10px;
+    }
+    @media (max-width: 980px){ .grid{ grid-template-columns: repeat(8, 1fr); } }
+    @media (max-width: 760px){ .grid{ grid-template-columns: repeat(6, 1fr); } input[type="text"]{ width: 180px; } }
+    @media (max-width: 520px){ .grid{ grid-template-columns: repeat(5, 1fr); } }
+
+    .num{
+      cursor:pointer;
+      border-radius: 14px;
+      padding: 12px 6px;
+      text-align:center;
+      font-weight: 900;
+      letter-spacing: .8px;
+      border: 1px solid rgba(0,0,0,.10);
+      background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.68));
+      box-shadow: 0 12px 18px rgba(0,0,0,.08);
+      user-select:none;
+      transition: transform .08s ease, border-color .2s ease, background .2s ease, box-shadow .2s ease;
+      position:relative;
+      overflow:hidden;
+      outline: none;
+    }
+    .num::before{
+      content:"";
+      position:absolute;
+      inset:-50% -30%;
+      background:
+        radial-gradient(circle at 25% 10%, rgba(0,182,255,.18), transparent 55%),
+        radial-gradient(circle at 85% 65%, rgba(255,0,128,.14), transparent 55%);
+      opacity:.95;
+      pointer-events:none;
+    }
+    .num span{ position: relative; z-index: 1; }
+
+    .num:hover{
+      transform: translateY(-1px);
+      border-color: rgba(0,182,255,.35);
+      box-shadow: 0 14px 22px rgba(0,0,0,.10);
+    }
+
+    .num.sold{
+      border-color: rgba(255,0,128,.55);
+      background: linear-gradient(135deg, rgba(255,0,128,.18), rgba(0,182,255,.12));
+      box-shadow: 0 16px 26px rgba(0,0,0,.12);
+    }
+    .num.sold::after{
+      content:"VENDIDO";
+      position:absolute;
+      bottom: 7px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .9px;
+      color: rgba(10,20,30,.78);
+      background: rgba(255,255,255,.72);
+      border: 1px solid rgba(0,0,0,.10);
+      border-radius: 999px;
+      padding: 2px 8px;
+      z-index: 2;
+    }
+
+    /* Resaltado por búsqueda */
+    .num.hit{
+      border-color: rgba(0,182,255,.75);
+      box-shadow: 0 0 0 4px rgba(0,182,255,.18), 0 14px 22px rgba(0,0,0,.10);
+      transform: translateY(-1px);
+    }
+
+    /* Tooltip con nombre */
+    .tooltip{
+      position:absolute;
+      left: 50%;
+      bottom: 44px;
+      transform: translateX(-50%);
+      background: rgba(10,20,30,.92);
+      color: white;
+      padding: 6px 10px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+      box-shadow: 0 12px 22px rgba(0,0,0,.22);
+      opacity: 0;
+      pointer-events:none;
+      transition: opacity .15s ease, transform .15s ease;
+      z-index: 5;
+    }
+    .tooltip::after{
+      content:"";
+      position:absolute;
+      left: 50%;
+      bottom: -6px;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: rgba(10,20,30,.92);
+    }
+    .num:hover .tooltip{
+      opacity: 1;
+      transform: translateX(-50%) translateY(-2px);
+    }
+
+    .footer{
+      margin-top: 14px;
+      color: rgba(10,20,30,.62);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+    .footer b{ color: rgba(10,20,30,.86); }
+    .minihelp{
+      margin-top: 10px;
+      font-size: 12px;
+      color: rgba(10,20,30,.70);
+    }
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      border: 1px solid rgba(0,0,0,.14);
+      background: rgba(255,255,255,.75);
+      border-radius: 8px;
+      padding: 2px 6px;
+      font-weight: 800;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="badge">
+      <h1>Rifa Profondos — Sala Neurososensorial</h1>
+      <p>Centro Terapéutico</p>
+      <div class="rule">
+        Juega con las <b>3 últimas cifras</b> de la <b>Lotería de Boyacá</b>.
+      </div>
+      <div class="minihelp">
+        <b>Uso:</b> clic = vender / desmarcar · doble clic = editar nombre · buscador = resaltar
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="toolbar">
+      <div class="controls">
+        <div class="pill">
+          <label for="search">Buscar:</label>
+          <input id="search" type="text" placeholder="Ej: 125 ó Juan" />
+        </div>
+
+        <div class="pill">
+          <label for="defaultBuyer">Nombre rápido:</label>
+          <input id="defaultBuyer" type="text" placeholder="Ej: Juan Pérez" />
+        </div>
+
+        <button class="btn btn-primary" id="btnExport">Copiar vendidos</button>
+        <button class="btn btn-fucsia" id="btnClear">Reiniciar todo</button>
+      </div>
+
+      <div class="stats">
+        <div class="stat">Total: <b id="total">300</b></div>
+        <div class="stat">Vendidos: <b id="soldCount">0</b></div>
+        <div class="stat">Disponibles: <b id="freeCount">300</b></div>
+      </div>
+    </div>
+
+    <div class="grid" id="grid" aria-label="Números de la rifa del 001 al 300"></div>
+
+    <div class="footer">
+      <b>Tip:</b> Si el prompt no aparece, revisa que tu navegador no esté bloqueando ventanas emergentes.
+      <br/>
+      <b>Atajos:</b> <span class="kbd">Doble clic</span> para editar nombre sin desmarcar.
+      <br/>
+      <b>Nota:</b> se guarda en este dispositivo/navegador.
+    </div>
+  </main>
+
+  <script>
+    const TOTAL = 300;
+    const STORAGE_KEY = "rifa_profondos_vendidos_v3"; // { "001": {buyer:"Juan"} ... }
+
+    const pad3 = (n) => String(n).padStart(3, "0");
+
+    let soldMap = {}; // number -> { buyer }
+    let lastClickAt = 0; // para evitar conflictos con doble clic
+
+    function loadState(){
+      try{
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if(raw) soldMap = JSON.parse(raw) || {};
+      }catch(e){
+        soldMap = {};
+      }
+    }
+
+    function saveState(){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(soldMap));
+    }
+
+    function updateStats(){
+      const soldCount = Object.keys(soldMap).length;
+      document.getElementById("soldCount").textContent = soldCount;
+      document.getElementById("freeCount").textContent = TOTAL - soldCount;
+    }
+
+    function escapeHtml(str){
+      return str
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    function renderGrid(){
+      const grid = document.getElementById("grid");
+      grid.innerHTML = "";
+
+      for(let i=1; i<=TOTAL; i++){
+        const code = pad3(i);
+        const div = document.createElement("div");
+        const isSold = !!soldMap[code];
+        div.className = "num" + (isSold ? " sold" : "");
+        div.setAttribute("role", "button");
+        div.setAttribute("tabindex", "0");
+        div.dataset.num = code;
+
+        const buyer = (soldMap[code]?.buyer || "").trim();
+        div.innerHTML =
+          `<span>${code}</span>` +
+          (buyer ? `<div class="tooltip">${escapeHtml(buyer)}</div>` : "");
+
+        // Clic (vender o desmarcar)
+        div.addEventListener("click", () => {
+          // Evita que el click del doble clic dispare dos prompts en algunos navegadores
+          const now = Date.now();
+          if(now - lastClickAt < 250) return;
+          lastClickAt = now;
+          onClickNumber(code);
+        });
+
+        // Doble clic (editar nombre)
+        div.addEventListener("dblclick", (e) => {
+          e.preventDefault();
+          onEditBuyer(code);
+        });
+
+        // Accesibilidad (Enter/Espacio)
+        div.addEventListener("keydown", (e) => {
+          if(e.key === "Enter" || e.key === " "){
+            e.preventDefault();
+            onClickNumber(code);
+          }
+        });
+
+        grid.appendChild(div);
+      }
+
+      updateStats();
+      applySearchHighlight();
+    }
+
+    function askBuyerName(code, currentName = ""){
+      const def = document.getElementById("defaultBuyer").value.trim();
+      const initial = currentName || def || "";
+      const name = prompt(`Nombre del comprador para el número ${code}:`, initial);
+      if(name === null) return null; // cancel
+      const clean = name.trim();
+      if(!clean) return ""; // vacío
+      return clean;
+    }
+
+    function onClickNumber(code){
+      const isSold = !!soldMap[code];
+
+      if(!isSold){
+        const name = askBuyerName(code);
+        if(name === null) return; // cancel
+        if(name === ""){
+          alert("⚠️ Debes escribir un nombre para marcarlo como vendido.");
+          return;
+        }
+        soldMap[code] = { buyer: name };
+        saveState();
+        renderGrid();
+        return;
+      }
+
+      // Si ya está vendido: confirm para desmarcar
+      const buyer = soldMap[code]?.buyer || "";
+      const ok = confirm(`El número ${code} está vendido a:\n"${buyer}"\n\n¿Deseas DESMARCARLO (dejarlo disponible)?`);
+      if(!ok) return;
+
+      delete soldMap[code];
+      saveState();
+      renderGrid();
+    }
+
+    function onEditBuyer(code){
+      const isSold = !!soldMap[code];
+      if(!isSold){
+        // si no está vendido, doble clic actúa como vender
+        onClickNumber(code);
+        return;
+      }
+
+      const current = soldMap[code]?.buyer || "";
+      const name = askBuyerName(code, current);
+      if(name === null) return; // cancel
+
+      if(name === ""){
+        alert("⚠️ El nombre no puede quedar vacío. Si quieres liberarlo, usa clic y desmarcar.");
+        return;
+      }
+
+      soldMap[code] = { buyer: name };
+      saveState();
+      renderGrid();
+    }
+
+    function applySearchHighlight(){
+      const q = document.getElementById("search").value.trim().toLowerCase();
+      const nodes = document.querySelectorAll(".num");
+      if(!q){
+        nodes.forEach(n => n.classList.remove("hit"));
+        return;
+      }
+
+      // Si el usuario escribe números, normalizamos a 3 dígitos cuando posible
+      const digitsOnly = q.replace(/\D/g, "");
+      const qNum = digitsOnly ? digitsOnly.slice(-3).padStart(3, "0") : null;
+
+      nodes.forEach(n => {
+        const code = n.dataset.num;
+        const buyer = (soldMap[code]?.buyer || "").toLowerCase();
+        const matchByNumber =
+          qNum ? (code === qNum || code.includes(digitsOnly)) : false;
+        const matchByBuyer =
+          q && buyer && buyer.includes(q);
+
+        if(matchByNumber || matchByBuyer){
+          n.classList.add("hit");
+        }else{
+          n.classList.remove("hit");
+        }
+      });
+    }
+
+    async function copySold(){
+      const entries = Object.entries(soldMap)
+        .sort((a,b)=> a[0].localeCompare(b[0]))
+        .map(([num, info]) => `${num} — ${info.buyer}`);
+
+      const text =
+`RIFA PROFONDOS — Sala Neurososensorial (Centro Terapéutico)
+Juega con las 3 últimas cifras de la Lotería de Boyacacá
+
+Vendidos (${entries.length}):
+${entries.length ? entries.join("\n") : "(ninguno)"}
+`;
+      try{
+        await navigator.clipboard.writeText(text);
+        alert("✅ Copiado al portapapeles.");
+      }catch(e){
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        ta.remove();
+        alert("✅ Copiado (modo compatibilidad).");
+      }
+    }
+
+    function clearAll(){
+      const ok = confirm("¿Seguro que quieres reiniciar TODO (borrar compradores y dejar 001–300 disponibles)?");
+      if(!ok) return;
+      soldMap = {};
+      saveState();
+      renderGrid();
+    }
+
+    // Init
+    loadState();
+    renderGrid();
+
+    document.getElementById("search").addEventListener("input", applySearchHighlight);
+    document.getElementById("btnExport").addEventListener("click", copySold);
+    document.getElementById("btnClear").addEventListener("click", clearAll);
+  </script>
+</body>
+</html>
