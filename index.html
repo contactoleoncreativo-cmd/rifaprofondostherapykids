@@ -12,7 +12,8 @@ body{
   margin:0;
   padding:20px;
 }
-h1{color:#FF0080}
+h1{color:#FF0080;margin:0}
+.subtitle{margin-top:5px;font-weight:bold}
 .grid{
   display:grid;
   grid-template-columns: repeat(10,1fr);
@@ -27,15 +28,21 @@ h1{color:#FF0080}
   cursor:pointer;
   background:#fff;
   border:2px solid #00B6FF;
+  transition:0.2s;
+}
+.num:hover{
+  transform:scale(1.05);
 }
 .num.sold{
   background:#FF0080;
   color:white;
+  border-color:#FF0080;
 }
 .topbar{
   display:flex;
   justify-content:space-between;
   align-items:center;
+  flex-wrap:wrap;
 }
 button{
   padding:8px 12px;
@@ -46,6 +53,10 @@ button{
 }
 .login{background:#00B6FF;color:white;}
 .logout{background:#FF0080;color:white;}
+.info{
+  margin-top:10px;
+  font-weight:bold;
+}
 </style>
 </head>
 <body>
@@ -53,13 +64,15 @@ button{
 <div class="topbar">
   <div>
     <h1>Rifa Profondos</h1>
-    <div>100 números · $30.000 c/u · Juega Sábado 4 abril 2026</div>
+    <div class="subtitle">100 números · $30.000 c/u · Juega Sábado 4 abril 2026</div>
   </div>
   <div>
     <button id="loginBtn" class="login">Iniciar sesión</button>
     <button id="logoutBtn" class="logout" style="display:none">Cerrar sesión</button>
   </div>
 </div>
+
+<div class="info" id="contador"></div>
 
 <div id="grid" class="grid"></div>
 
@@ -83,6 +96,8 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 const grid = document.getElementById("grid");
+const contador = document.getElementById("contador");
+
 let currentUser = null;
 
 // Crear números
@@ -96,16 +111,25 @@ for(let i=1;i<=100;i++){
   grid.appendChild(div);
 }
 
-// Escuchar en tiempo real
+// Referencia Firestore
 const numerosRef = collection(db,"rifas/profondos-abril-4-2026/numeros");
 
+// Escuchar cambios en tiempo real
 onSnapshot(numerosRef,(snapshot)=>{
   document.querySelectorAll(".num").forEach(n=>n.classList.remove("sold"));
+
+  let vendidos = 0;
+
   snapshot.forEach(docSnap=>{
     const num = docSnap.id;
     const el = document.getElementById("num-"+num);
-    if(el) el.classList.add("sold");
+    if(el){
+      el.classList.add("sold");
+      vendidos++;
+    }
   });
+
+  contador.textContent = `Vendidos: ${vendidos} / 100`;
 });
 
 // Click número
