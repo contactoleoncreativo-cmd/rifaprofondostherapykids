@@ -10,7 +10,7 @@
       --fucsia: #FF0080;
       --bg1: #f3fbff;
       --bg2: #fff5fb;
-      --card: rgba(255,255,255,.78);
+      --card: rgba(255,255,255,.82);
       --stroke: rgba(10,30,40,.14);
       --text: rgba(10,20,30,.92);
       --muted: rgba(10,20,30,.65);
@@ -26,11 +26,9 @@
       color: var(--text);
       min-height: 100vh;
     }
-    header{
-      padding: 22px 16px 12px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+    header{ padding: 22px 16px 12px; max-width: 1200px; margin: 0 auto; }
+    main{ max-width: 1200px; margin: 0 auto; padding: 0 16px 26px; }
+
     .badge{
       padding: 12px 14px;
       border-radius: 18px;
@@ -40,7 +38,7 @@
       display:flex;
       flex-direction:column;
       gap:6px;
-      max-width: 640px;
+      max-width: 760px;
     }
     .badge h1{ margin:0; font-size: 20px; line-height: 1.15; }
     .badge p{ margin:0; color: var(--muted); font-size: 13px; }
@@ -53,27 +51,13 @@
       color: rgba(10,20,30,.86);
       font-size: 13px;
     }
-
-    main{
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 16px 26px;
-    }
+    .minihelp{ margin-top: 8px; font-size: 12px; color: rgba(10,20,30,.70); }
 
     .toolbar{
-      display:flex;
-      gap:10px;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
+      display:flex; gap:10px; flex-wrap: wrap; align-items: center; justify-content: space-between;
       margin: 12px 0 14px;
     }
-    .controls{
-      display:flex;
-      gap:10px;
-      flex-wrap: wrap;
-      align-items:center;
-    }
+    .controls{ display:flex; gap:10px; flex-wrap: wrap; align-items:center; }
     .pill{
       background: var(--card);
       border: 1px solid var(--stroke);
@@ -84,56 +68,36 @@
       align-items:center;
       box-shadow: 0 10px 22px rgba(0,0,0,.07);
     }
-    .pill label{
-      font-size: 12px;
-      color: var(--muted);
-      white-space: nowrap;
-    }
+    .pill label{ font-size: 12px; color: var(--muted); white-space: nowrap; }
     input[type="text"]{
-      background: transparent;
-      border: none;
-      outline: none;
-      color: var(--text);
-      font-size: 14px;
-      width: 240px;
+      background: transparent; border: none; outline: none;
+      color: var(--text); font-size: 14px; width: 220px;
     }
     .btn{
       cursor:pointer;
       border: 1px solid rgba(0,0,0,.12);
-      background: rgba(255,255,255,.70);
+      background: rgba(255,255,255,.72);
       color: var(--text);
       padding: 10px 12px;
       border-radius: 12px;
-      font-weight: 800;
+      font-weight: 900;
       letter-spacing: .2px;
       transition: transform .08s ease, background .2s ease, border-color .2s ease;
       user-select: none;
       box-shadow: 0 10px 22px rgba(0,0,0,.07);
     }
-    .btn:hover{ background: rgba(255,255,255,.88); }
+    .btn:hover{ background: rgba(255,255,255,.92); }
     .btn:active{ transform: translateY(1px); }
-    .btn-primary{
-      border-color: rgba(0,182,255,.55);
-      background: rgba(0,182,255,.16);
-    }
+    .btn-primary{ border-color: rgba(0,182,255,.55); background: rgba(0,182,255,.16); }
     .btn-primary:hover{ background: rgba(0,182,255,.22); }
-    .btn-fucsia{
-      border-color: rgba(255,0,128,.55);
-      background: rgba(255,0,128,.14);
-    }
+    .btn-fucsia{ border-color: rgba(255,0,128,.55); background: rgba(255,0,128,.14); }
     .btn-fucsia:hover{ background: rgba(255,0,128,.20); }
 
-    .stats{
-      display:flex;
-      gap:10px;
-      flex-wrap: wrap;
-      align-items:center;
-      justify-content:flex-end;
-    }
+    .stats{ display:flex; gap:10px; flex-wrap: wrap; align-items:center; justify-content:flex-end; }
     .stat{
       padding: 10px 12px;
       border-radius: 14px;
-      background: rgba(255,255,255,.70);
+      background: rgba(255,255,255,.72);
       border: 1px solid rgba(0,0,0,.10);
       box-shadow: 0 10px 22px rgba(0,0,0,.07);
       font-size: 13px;
@@ -142,13 +106,9 @@
     }
     .stat b{ color: var(--text); }
 
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(10, minmax(0, 1fr));
-      gap: 10px;
-    }
+    .grid{ display:grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 10px; }
     @media (max-width: 980px){ .grid{ grid-template-columns: repeat(8, 1fr); } }
-    @media (max-width: 760px){ .grid{ grid-template-columns: repeat(6, 1fr); } input[type="text"]{ width: 180px; } }
+    @media (max-width: 760px){ .grid{ grid-template-columns: repeat(6, 1fr); } input[type="text"]{ width: 170px; } }
     @media (max-width: 520px){ .grid{ grid-template-columns: repeat(5, 1fr); } }
 
     .num{
@@ -156,7 +116,7 @@
       border-radius: 14px;
       padding: 12px 6px;
       text-align:center;
-      font-weight: 900;
+      font-weight: 950;
       letter-spacing: .8px;
       border: 1px solid rgba(0,0,0,.10);
       background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.68));
@@ -178,13 +138,11 @@
       pointer-events:none;
     }
     .num span{ position: relative; z-index: 1; }
-
     .num:hover{
       transform: translateY(-1px);
       border-color: rgba(0,182,255,.35);
       box-shadow: 0 14px 22px rgba(0,0,0,.10);
     }
-
     .num.sold{
       border-color: rgba(255,0,128,.55);
       background: linear-gradient(135deg, rgba(255,0,128,.18), rgba(0,182,255,.12));
@@ -197,24 +155,20 @@
       left: 50%;
       transform: translateX(-50%);
       font-size: 10px;
-      font-weight: 900;
+      font-weight: 950;
       letter-spacing: .9px;
       color: rgba(10,20,30,.78);
-      background: rgba(255,255,255,.72);
+      background: rgba(255,255,255,.75);
       border: 1px solid rgba(0,0,0,.10);
       border-radius: 999px;
       padding: 2px 8px;
       z-index: 2;
     }
-
-    /* Resaltado por búsqueda */
     .num.hit{
       border-color: rgba(0,182,255,.75);
       box-shadow: 0 0 0 4px rgba(0,182,255,.18), 0 14px 22px rgba(0,0,0,.10);
       transform: translateY(-1px);
     }
-
-    /* Tooltip con nombre */
     .tooltip{
       position:absolute;
       left: 50%;
@@ -225,7 +179,7 @@
       padding: 6px 10px;
       border-radius: 10px;
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 900;
       white-space: nowrap;
       box-shadow: 0 12px 22px rgba(0,0,0,.22);
       opacity: 0;
@@ -251,13 +205,7 @@
       margin-top: 14px;
       color: rgba(10,20,30,.62);
       font-size: 12px;
-      line-height: 1.4;
-    }
-    .footer b{ color: rgba(10,20,30,.86); }
-    .minihelp{
-      margin-top: 10px;
-      font-size: 12px;
-      color: rgba(10,20,30,.70);
+      line-height: 1.45;
     }
     .kbd{
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -266,8 +214,72 @@
       background: rgba(255,255,255,.75);
       border-radius: 8px;
       padding: 2px 6px;
-      font-weight: 800;
+      font-weight: 900;
     }
+
+    /* ===== Modal ===== */
+    .backdrop{
+      position: fixed; inset: 0;
+      background: rgba(10,20,30,.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 999;
+    }
+    .backdrop.show{ display:flex; }
+    .modal{
+      width: 100%;
+      max-width: 520px;
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(0,0,0,.12);
+      border-radius: 18px;
+      box-shadow: 0 28px 70px rgba(0,0,0,.22);
+      overflow:hidden;
+    }
+    .modalHead{
+      padding: 14px 16px;
+      background: linear-gradient(135deg, rgba(0,182,255,.18), rgba(255,0,128,.14));
+      border-bottom: 1px solid rgba(0,0,0,.08);
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .modalHead b{ font-size: 14px; }
+    .closeX{
+      cursor:pointer;
+      border: 1px solid rgba(0,0,0,.14);
+      background: rgba(255,255,255,.75);
+      border-radius: 10px;
+      padding: 6px 10px;
+      font-weight: 900;
+    }
+    .modalBody{ padding: 14px 16px; }
+    .field{ display:flex; flex-direction:column; gap:6px; margin-bottom: 12px; }
+    .field label{ font-size: 12px; color: var(--muted); font-weight: 800; }
+    .field input{
+      width: 100%;
+      padding: 12px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(0,0,0,.14);
+      outline: none;
+      font-size: 15px;
+      background: rgba(255,255,255,.92);
+    }
+    .modalFoot{
+      padding: 14px 16px;
+      display:flex;
+      gap:10px;
+      justify-content: flex-end;
+      border-top: 1px solid rgba(0,0,0,.08);
+      background: rgba(255,255,255,.70);
+    }
+    .danger{
+      border-color: rgba(255,0,128,.55) !important;
+      background: rgba(255,0,128,.12) !important;
+    }
+    .noteSmall{ font-size: 12px; color: rgba(10,20,30,.65); margin-top: 6px; }
   </style>
 </head>
 <body>
@@ -276,10 +288,11 @@
       <h1>Rifa Profondos — Sala Neurososensorial</h1>
       <p>Centro Terapéutico</p>
       <div class="rule">
+        <b>100 números (001–100)</b> · Valor: <b>$30.000</b> cada uno · Juega: <b>Sábado 4 de abril de 2026</b><br/>
         Juega con las <b>3 últimas cifras</b> de la <b>Lotería de Boyacá</b>.
       </div>
       <div class="minihelp">
-        <b>Uso:</b> clic = vender / desmarcar · doble clic = editar nombre · buscador = resaltar
+        <b>Uso:</b> clic = vender / desmarcar · <span class="kbd">doble clic</span> = editar nombre · buscador = resaltar
       </div>
     </div>
   </header>
@@ -289,7 +302,7 @@
       <div class="controls">
         <div class="pill">
           <label for="search">Buscar:</label>
-          <input id="search" type="text" placeholder="Ej: 125 ó Juan" />
+          <input id="search" type="text" placeholder="Ej: 25 ó Juan" />
         </div>
 
         <div class="pill">
@@ -302,36 +315,75 @@
       </div>
 
       <div class="stats">
-        <div class="stat">Total: <b id="total">300</b></div>
+        <div class="stat">Total: <b id="total">100</b></div>
         <div class="stat">Vendidos: <b id="soldCount">0</b></div>
-        <div class="stat">Disponibles: <b id="freeCount">300</b></div>
+        <div class="stat">Disponibles: <b id="freeCount">100</b></div>
       </div>
     </div>
 
-    <div class="grid" id="grid" aria-label="Números de la rifa del 001 al 300"></div>
+    <div class="grid" id="grid" aria-label="Números de la rifa del 001 al 100"></div>
 
     <div class="footer">
-      <b>Tip:</b> Si el prompt no aparece, revisa que tu navegador no esté bloqueando ventanas emergentes.
-      <br/>
-      <b>Atajos:</b> <span class="kbd">Doble clic</span> para editar nombre sin desmarcar.
-      <br/>
-      <b>Nota:</b> se guarda en este dispositivo/navegador.
+      <b>Nota:</b> por defecto guarda en este dispositivo. Para “tiempo real” entre dispositivos necesitas Firebase (te explico abajo).
     </div>
   </main>
 
+  <!-- Modal -->
+  <div class="backdrop" id="backdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modalHead">
+        <b id="modalTitle">Vender número</b>
+        <button class="closeX" id="btnClose" type="button">X</button>
+      </div>
+      <div class="modalBody">
+        <div class="field">
+          <label>Número</label>
+          <input id="mNumber" type="text" disabled />
+        </div>
+        <div class="field">
+          <label>Nombre del comprador</label>
+          <input id="mBuyer" type="text" placeholder="Ej: Juan Pérez" />
+          <div class="noteSmall">Tip: puedes usar “Nombre rápido” para prellenar.</div>
+        </div>
+      </div>
+      <div class="modalFoot">
+        <button class="btn" id="btnCancel" type="button">Cancelar</button>
+        <button class="btn btn-primary" id="btnSave" type="button">Guardar</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    const TOTAL = 300;
-    const STORAGE_KEY = "rifa_profondos_vendidos_v3"; // { "001": {buyer:"Juan"} ... }
+    // ======================
+    // CONFIG
+    // ======================
+    const TOTAL = 100;
 
+    // Local (solo en el navegador)
+    const STORAGE_KEY = "rifa_profondos_vendidos_100_v1"; // { "001": {buyer:"Juan"} ... }
+
+    // ======================
+    // STATE
+    // ======================
+    let soldMap = {};          // number -> { buyer }
+    let pendingAction = null;  // {mode: "sell"|"edit", num: "025"}
+
+    // ======================
+    // UTIL
+    // ======================
     const pad3 = (n) => String(n).padStart(3, "0");
-
-    let soldMap = {}; // number -> { buyer }
-    let lastClickAt = 0; // para evitar conflictos con doble clic
+    const escapeHtml = (str) =>
+      (str || "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
 
     function loadState(){
       try{
         const raw = localStorage.getItem(STORAGE_KEY);
-        if(raw) soldMap = JSON.parse(raw) || {};
+        soldMap = raw ? (JSON.parse(raw) || {}) : {};
       }catch(e){
         soldMap = {};
       }
@@ -347,49 +399,38 @@
       document.getElementById("freeCount").textContent = TOTAL - soldCount;
     }
 
-    function escapeHtml(str){
-      return str
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-    }
-
+    // ======================
+    // RENDER
+    // ======================
     function renderGrid(){
       const grid = document.getElementById("grid");
       grid.innerHTML = "";
 
       for(let i=1; i<=TOTAL; i++){
         const code = pad3(i);
-        const div = document.createElement("div");
         const isSold = !!soldMap[code];
+        const buyer = (soldMap[code]?.buyer || "").trim();
+
+        const div = document.createElement("div");
         div.className = "num" + (isSold ? " sold" : "");
+        div.dataset.num = code;
         div.setAttribute("role", "button");
         div.setAttribute("tabindex", "0");
-        div.dataset.num = code;
 
-        const buyer = (soldMap[code]?.buyer || "").trim();
         div.innerHTML =
           `<span>${code}</span>` +
           (buyer ? `<div class="tooltip">${escapeHtml(buyer)}</div>` : "");
 
-        // Clic (vender o desmarcar)
-        div.addEventListener("click", () => {
-          // Evita que el click del doble clic dispare dos prompts en algunos navegadores
-          const now = Date.now();
-          if(now - lastClickAt < 250) return;
-          lastClickAt = now;
-          onClickNumber(code);
-        });
+        // Clic: vender o desmarcar
+        div.addEventListener("click", () => onClickNumber(code));
 
-        // Doble clic (editar nombre)
+        // Doble clic: editar nombre sin desmarcar
         div.addEventListener("dblclick", (e) => {
           e.preventDefault();
           onEditBuyer(code);
         });
 
-        // Accesibilidad (Enter/Espacio)
+        // Teclado
         div.addEventListener("keydown", (e) => {
           if(e.key === "Enter" || e.key === " "){
             e.preventDefault();
@@ -404,92 +445,130 @@
       applySearchHighlight();
     }
 
-    function askBuyerName(code, currentName = ""){
-      const def = document.getElementById("defaultBuyer").value.trim();
-      const initial = currentName || def || "";
-      const name = prompt(`Nombre del comprador para el número ${code}:`, initial);
-      if(name === null) return null; // cancel
-      const clean = name.trim();
-      if(!clean) return ""; // vacío
-      return clean;
-    }
-
-    function onClickNumber(code){
-      const isSold = !!soldMap[code];
-
-      if(!isSold){
-        const name = askBuyerName(code);
-        if(name === null) return; // cancel
-        if(name === ""){
-          alert("⚠️ Debes escribir un nombre para marcarlo como vendido.");
-          return;
-        }
-        soldMap[code] = { buyer: name };
-        saveState();
-        renderGrid();
-        return;
-      }
-
-      // Si ya está vendido: confirm para desmarcar
-      const buyer = soldMap[code]?.buyer || "";
-      const ok = confirm(`El número ${code} está vendido a:\n"${buyer}"\n\n¿Deseas DESMARCARLO (dejarlo disponible)?`);
-      if(!ok) return;
-
-      delete soldMap[code];
-      saveState();
-      renderGrid();
-    }
-
-    function onEditBuyer(code){
-      const isSold = !!soldMap[code];
-      if(!isSold){
-        // si no está vendido, doble clic actúa como vender
-        onClickNumber(code);
-        return;
-      }
-
-      const current = soldMap[code]?.buyer || "";
-      const name = askBuyerName(code, current);
-      if(name === null) return; // cancel
-
-      if(name === ""){
-        alert("⚠️ El nombre no puede quedar vacío. Si quieres liberarlo, usa clic y desmarcar.");
-        return;
-      }
-
-      soldMap[code] = { buyer: name };
-      saveState();
-      renderGrid();
-    }
-
+    // ======================
+    // SEARCH HIGHLIGHT
+    // ======================
     function applySearchHighlight(){
       const q = document.getElementById("search").value.trim().toLowerCase();
       const nodes = document.querySelectorAll(".num");
+
       if(!q){
         nodes.forEach(n => n.classList.remove("hit"));
         return;
       }
 
-      // Si el usuario escribe números, normalizamos a 3 dígitos cuando posible
       const digitsOnly = q.replace(/\D/g, "");
       const qNum = digitsOnly ? digitsOnly.slice(-3).padStart(3, "0") : null;
 
       nodes.forEach(n => {
         const code = n.dataset.num;
         const buyer = (soldMap[code]?.buyer || "").toLowerCase();
-        const matchByNumber =
-          qNum ? (code === qNum || code.includes(digitsOnly)) : false;
-        const matchByBuyer =
-          q && buyer && buyer.includes(q);
 
-        if(matchByNumber || matchByBuyer){
-          n.classList.add("hit");
-        }else{
-          n.classList.remove("hit");
-        }
+        const matchByNumber = qNum ? (code === qNum || code.includes(digitsOnly)) : false;
+        const matchByBuyer = buyer && buyer.includes(q);
+
+        n.classList.toggle("hit", matchByNumber || matchByBuyer);
       });
     }
 
+    // ======================
+    // MODAL
+    // ======================
+    const backdrop = document.getElementById("backdrop");
+    const mNumber = document.getElementById("mNumber");
+    const mBuyer = document.getElementById("mBuyer");
+    const modalTitle = document.getElementById("modalTitle");
+
+    function openModal({ mode, num }){
+      pendingAction = { mode, num };
+
+      const def = document.getElementById("defaultBuyer").value.trim();
+      const current = (soldMap[num]?.buyer || "").trim();
+
+      mNumber.value = num;
+      mBuyer.value = mode === "edit" ? current : (def || current || "");
+
+      modalTitle.textContent = mode === "edit" ? `Editar comprador (${num})` : `Vender número (${num})`;
+
+      backdrop.classList.add("show");
+      backdrop.setAttribute("aria-hidden", "false");
+      setTimeout(() => mBuyer.focus(), 0);
+    }
+
+    function closeModal(){
+      pendingAction = null;
+      backdrop.classList.remove("show");
+      backdrop.setAttribute("aria-hidden", "true");
+      mBuyer.value = "";
+    }
+
+    document.getElementById("btnClose").addEventListener("click", closeModal);
+    document.getElementById("btnCancel").addEventListener("click", closeModal);
+
+    backdrop.addEventListener("click", (e) => {
+      if(e.target === backdrop) closeModal();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if(e.key === "Escape" && backdrop.classList.contains("show")) closeModal();
+    });
+
+    document.getElementById("btnSave").addEventListener("click", () => {
+      if(!pendingAction) return;
+      const name = (mBuyer.value || "").trim();
+      if(!name){
+        alert("⚠️ Debes escribir el nombre del comprador.");
+        mBuyer.focus();
+        return;
+      }
+
+      soldMap[pendingAction.num] = { buyer: name };
+      saveState();
+      closeModal();
+      renderGrid();
+    });
+
+    // Enter en el input guarda
+    mBuyer.addEventListener("keydown", (e) => {
+      if(e.key === "Enter"){
+        e.preventDefault();
+        document.getElementById("btnSave").click();
+      }
+    });
+
+    // ======================
+    // CLICK LOGIC
+    // ======================
+    function onClickNumber(num){
+      const isSold = !!soldMap[num];
+
+      if(!isSold){
+        openModal({ mode: "sell", num });
+        return;
+      }
+
+      const buyer = soldMap[num]?.buyer || "";
+      const ok = confirm(`El número ${num} está vendido a:\n"${buyer}"\n\n¿Deseas DESMARCARLO (dejarlo disponible)?`);
+      if(!ok) return;
+
+      delete soldMap[num];
+      saveState();
+      renderGrid();
+    }
+
+    function onEditBuyer(num){
+      const isSold = !!soldMap[num];
+      if(!isSold){
+        // si no está vendido, doble clic funciona como vender
+        openModal({ mode: "sell", num });
+        return;
+      }
+      openModal({ mode: "edit", num });
+    }
+
+    // ======================
+    // EXPORT / CLEAR
+    // ======================
     async function copySold(){
       const entries = Object.entries(soldMap)
         .sort((a,b)=> a[0].localeCompare(b[0]))
@@ -497,7 +576,8 @@
 
       const text =
 `RIFA PROFONDOS — Sala Neurososensorial (Centro Terapéutico)
-Juega con las 3 últimas cifras de la Lotería de Boyacacá
+100 números (001–100) · Valor $30.000 c/u · Juega Sábado 4 de abril de 2026
+Juega con las 3 últimas cifras de la Lotería de Boyacá
 
 Vendidos (${entries.length}):
 ${entries.length ? entries.join("\n") : "(ninguno)"}
@@ -517,14 +597,16 @@ ${entries.length ? entries.join("\n") : "(ninguno)"}
     }
 
     function clearAll(){
-      const ok = confirm("¿Seguro que quieres reiniciar TODO (borrar compradores y dejar 001–300 disponibles)?");
+      const ok = confirm("¿Seguro que quieres reiniciar TODO (borrar compradores y dejar 001–100 disponibles)?");
       if(!ok) return;
       soldMap = {};
       saveState();
       renderGrid();
     }
 
-    // Init
+    // ======================
+    // INIT
+    // ======================
     loadState();
     renderGrid();
 
