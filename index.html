@@ -1,618 +1,155 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Rifa Profondos — Sala Neurososensorial | Centro Terapéutico</title>
-  <style>
-    :root{
-      --azul: #00B6FF;
-      --fucsia: #FF0080;
-      --bg1: #f3fbff;
-      --bg2: #fff5fb;
-      --card: rgba(255,255,255,.82);
-      --stroke: rgba(10,30,40,.14);
-      --text: rgba(10,20,30,.92);
-      --muted: rgba(10,20,30,.65);
-    }
-    *{ box-sizing: border-box; }
-    body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      background:
-        radial-gradient(1000px 700px at 10% 0%, rgba(0,182,255,.25), transparent 60%),
-        radial-gradient(900px 650px at 90% 10%, rgba(255,0,128,.18), transparent 55%),
-        linear-gradient(180deg, var(--bg1), var(--bg2));
-      color: var(--text);
-      min-height: 100vh;
-    }
-    header{ padding: 22px 16px 12px; max-width: 1200px; margin: 0 auto; }
-    main{ max-width: 1200px; margin: 0 auto; padding: 0 16px 26px; }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rifa Profondos</title>
 
-    .badge{
-      padding: 12px 14px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, rgba(0,182,255,.18), rgba(255,0,128,.14));
-      border: 1px solid rgba(0,0,0,.10);
-      box-shadow: 0 14px 35px rgba(0,0,0,.10);
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-      max-width: 760px;
-    }
-    .badge h1{ margin:0; font-size: 20px; line-height: 1.15; }
-    .badge p{ margin:0; color: var(--muted); font-size: 13px; }
-    .rule{
-      margin-top: 6px;
-      padding: 10px 12px;
-      border-radius: 14px;
-      background: rgba(0,182,255,.10);
-      border: 1px dashed rgba(0,182,255,.45);
-      color: rgba(10,20,30,.86);
-      font-size: 13px;
-    }
-    .minihelp{ margin-top: 8px; font-size: 12px; color: rgba(10,20,30,.70); }
-
-    .toolbar{
-      display:flex; gap:10px; flex-wrap: wrap; align-items: center; justify-content: space-between;
-      margin: 12px 0 14px;
-    }
-    .controls{ display:flex; gap:10px; flex-wrap: wrap; align-items:center; }
-    .pill{
-      background: var(--card);
-      border: 1px solid var(--stroke);
-      border-radius: 999px;
-      padding: 10px 12px;
-      display:flex;
-      gap:10px;
-      align-items:center;
-      box-shadow: 0 10px 22px rgba(0,0,0,.07);
-    }
-    .pill label{ font-size: 12px; color: var(--muted); white-space: nowrap; }
-    input[type="text"]{
-      background: transparent; border: none; outline: none;
-      color: var(--text); font-size: 14px; width: 220px;
-    }
-    .btn{
-      cursor:pointer;
-      border: 1px solid rgba(0,0,0,.12);
-      background: rgba(255,255,255,.72);
-      color: var(--text);
-      padding: 10px 12px;
-      border-radius: 12px;
-      font-weight: 900;
-      letter-spacing: .2px;
-      transition: transform .08s ease, background .2s ease, border-color .2s ease;
-      user-select: none;
-      box-shadow: 0 10px 22px rgba(0,0,0,.07);
-    }
-    .btn:hover{ background: rgba(255,255,255,.92); }
-    .btn:active{ transform: translateY(1px); }
-    .btn-primary{ border-color: rgba(0,182,255,.55); background: rgba(0,182,255,.16); }
-    .btn-primary:hover{ background: rgba(0,182,255,.22); }
-    .btn-fucsia{ border-color: rgba(255,0,128,.55); background: rgba(255,0,128,.14); }
-    .btn-fucsia:hover{ background: rgba(255,0,128,.20); }
-
-    .stats{ display:flex; gap:10px; flex-wrap: wrap; align-items:center; justify-content:flex-end; }
-    .stat{
-      padding: 10px 12px;
-      border-radius: 14px;
-      background: rgba(255,255,255,.72);
-      border: 1px solid rgba(0,0,0,.10);
-      box-shadow: 0 10px 22px rgba(0,0,0,.07);
-      font-size: 13px;
-      color: var(--muted);
-      white-space: nowrap;
-    }
-    .stat b{ color: var(--text); }
-
-    .grid{ display:grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 10px; }
-    @media (max-width: 980px){ .grid{ grid-template-columns: repeat(8, 1fr); } }
-    @media (max-width: 760px){ .grid{ grid-template-columns: repeat(6, 1fr); } input[type="text"]{ width: 170px; } }
-    @media (max-width: 520px){ .grid{ grid-template-columns: repeat(5, 1fr); } }
-
-    .num{
-      cursor:pointer;
-      border-radius: 14px;
-      padding: 12px 6px;
-      text-align:center;
-      font-weight: 950;
-      letter-spacing: .8px;
-      border: 1px solid rgba(0,0,0,.10);
-      background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.68));
-      box-shadow: 0 12px 18px rgba(0,0,0,.08);
-      user-select:none;
-      transition: transform .08s ease, border-color .2s ease, background .2s ease, box-shadow .2s ease;
-      position:relative;
-      overflow:hidden;
-      outline: none;
-    }
-    .num::before{
-      content:"";
-      position:absolute;
-      inset:-50% -30%;
-      background:
-        radial-gradient(circle at 25% 10%, rgba(0,182,255,.18), transparent 55%),
-        radial-gradient(circle at 85% 65%, rgba(255,0,128,.14), transparent 55%);
-      opacity:.95;
-      pointer-events:none;
-    }
-    .num span{ position: relative; z-index: 1; }
-    .num:hover{
-      transform: translateY(-1px);
-      border-color: rgba(0,182,255,.35);
-      box-shadow: 0 14px 22px rgba(0,0,0,.10);
-    }
-    .num.sold{
-      border-color: rgba(255,0,128,.55);
-      background: linear-gradient(135deg, rgba(255,0,128,.18), rgba(0,182,255,.12));
-      box-shadow: 0 16px 26px rgba(0,0,0,.12);
-    }
-    .num.sold::after{
-      content:"VENDIDO";
-      position:absolute;
-      bottom: 7px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 10px;
-      font-weight: 950;
-      letter-spacing: .9px;
-      color: rgba(10,20,30,.78);
-      background: rgba(255,255,255,.75);
-      border: 1px solid rgba(0,0,0,.10);
-      border-radius: 999px;
-      padding: 2px 8px;
-      z-index: 2;
-    }
-    .num.hit{
-      border-color: rgba(0,182,255,.75);
-      box-shadow: 0 0 0 4px rgba(0,182,255,.18), 0 14px 22px rgba(0,0,0,.10);
-      transform: translateY(-1px);
-    }
-    .tooltip{
-      position:absolute;
-      left: 50%;
-      bottom: 44px;
-      transform: translateX(-50%);
-      background: rgba(10,20,30,.92);
-      color: white;
-      padding: 6px 10px;
-      border-radius: 10px;
-      font-size: 12px;
-      font-weight: 900;
-      white-space: nowrap;
-      box-shadow: 0 12px 22px rgba(0,0,0,.22);
-      opacity: 0;
-      pointer-events:none;
-      transition: opacity .15s ease, transform .15s ease;
-      z-index: 5;
-    }
-    .tooltip::after{
-      content:"";
-      position:absolute;
-      left: 50%;
-      bottom: -6px;
-      transform: translateX(-50%);
-      border: 6px solid transparent;
-      border-top-color: rgba(10,20,30,.92);
-    }
-    .num:hover .tooltip{
-      opacity: 1;
-      transform: translateX(-50%) translateY(-2px);
-    }
-
-    .footer{
-      margin-top: 14px;
-      color: rgba(10,20,30,.62);
-      font-size: 12px;
-      line-height: 1.45;
-    }
-    .kbd{
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size: 12px;
-      border: 1px solid rgba(0,0,0,.14);
-      background: rgba(255,255,255,.75);
-      border-radius: 8px;
-      padding: 2px 6px;
-      font-weight: 900;
-    }
-
-    /* ===== Modal ===== */
-    .backdrop{
-      position: fixed; inset: 0;
-      background: rgba(10,20,30,.45);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 18px;
-      z-index: 999;
-    }
-    .backdrop.show{ display:flex; }
-    .modal{
-      width: 100%;
-      max-width: 520px;
-      background: rgba(255,255,255,.92);
-      border: 1px solid rgba(0,0,0,.12);
-      border-radius: 18px;
-      box-shadow: 0 28px 70px rgba(0,0,0,.22);
-      overflow:hidden;
-    }
-    .modalHead{
-      padding: 14px 16px;
-      background: linear-gradient(135deg, rgba(0,182,255,.18), rgba(255,0,128,.14));
-      border-bottom: 1px solid rgba(0,0,0,.08);
-      display:flex;
-      align-items:center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-    .modalHead b{ font-size: 14px; }
-    .closeX{
-      cursor:pointer;
-      border: 1px solid rgba(0,0,0,.14);
-      background: rgba(255,255,255,.75);
-      border-radius: 10px;
-      padding: 6px 10px;
-      font-weight: 900;
-    }
-    .modalBody{ padding: 14px 16px; }
-    .field{ display:flex; flex-direction:column; gap:6px; margin-bottom: 12px; }
-    .field label{ font-size: 12px; color: var(--muted); font-weight: 800; }
-    .field input{
-      width: 100%;
-      padding: 12px 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(0,0,0,.14);
-      outline: none;
-      font-size: 15px;
-      background: rgba(255,255,255,.92);
-    }
-    .modalFoot{
-      padding: 14px 16px;
-      display:flex;
-      gap:10px;
-      justify-content: flex-end;
-      border-top: 1px solid rgba(0,0,0,.08);
-      background: rgba(255,255,255,.70);
-    }
-    .danger{
-      border-color: rgba(255,0,128,.55) !important;
-      background: rgba(255,0,128,.12) !important;
-    }
-    .noteSmall{ font-size: 12px; color: rgba(10,20,30,.65); margin-top: 6px; }
-  </style>
+<style>
+body{
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg,#e6f7ff,#ffe6f2);
+  margin:0;
+  padding:20px;
+}
+h1{color:#FF0080}
+.grid{
+  display:grid;
+  grid-template-columns: repeat(10,1fr);
+  gap:10px;
+  margin-top:20px;
+}
+.num{
+  padding:15px;
+  text-align:center;
+  font-weight:bold;
+  border-radius:10px;
+  cursor:pointer;
+  background:#fff;
+  border:2px solid #00B6FF;
+}
+.num.sold{
+  background:#FF0080;
+  color:white;
+}
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+button{
+  padding:8px 12px;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:bold;
+}
+.login{background:#00B6FF;color:white;}
+.logout{background:#FF0080;color:white;}
+</style>
 </head>
 <body>
-  <header>
-    <div class="badge">
-      <h1>Rifa Profondos — Sala Neurososensorial</h1>
-      <p>Centro Terapéutico</p>
-      <div class="rule">
-        <b>100 números (001–100)</b> · Valor: <b>$30.000</b> cada uno · Juega: <b>Sábado 4 de abril de 2026</b><br/>
-        Juega con las <b>3 últimas cifras</b> de la <b>Lotería de Boyacá</b>.
-      </div>
-      <div class="minihelp">
-        <b>Uso:</b> clic = vender / desmarcar · <span class="kbd">doble clic</span> = editar nombre · buscador = resaltar
-      </div>
-    </div>
-  </header>
 
-  <main>
-    <div class="toolbar">
-      <div class="controls">
-        <div class="pill">
-          <label for="search">Buscar:</label>
-          <input id="search" type="text" placeholder="Ej: 25 ó Juan" />
-        </div>
-
-        <div class="pill">
-          <label for="defaultBuyer">Nombre rápido:</label>
-          <input id="defaultBuyer" type="text" placeholder="Ej: Juan Pérez" />
-        </div>
-
-        <button class="btn btn-primary" id="btnExport">Copiar vendidos</button>
-        <button class="btn btn-fucsia" id="btnClear">Reiniciar todo</button>
-      </div>
-
-      <div class="stats">
-        <div class="stat">Total: <b id="total">100</b></div>
-        <div class="stat">Vendidos: <b id="soldCount">0</b></div>
-        <div class="stat">Disponibles: <b id="freeCount">100</b></div>
-      </div>
-    </div>
-
-    <div class="grid" id="grid" aria-label="Números de la rifa del 001 al 100"></div>
-
-    <div class="footer">
-      <b>Nota:</b> por defecto guarda en este dispositivo. Para “tiempo real” entre dispositivos necesitas Firebase (te explico abajo).
-    </div>
-  </main>
-
-  <!-- Modal -->
-  <div class="backdrop" id="backdrop" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <div class="modalHead">
-        <b id="modalTitle">Vender número</b>
-        <button class="closeX" id="btnClose" type="button">X</button>
-      </div>
-      <div class="modalBody">
-        <div class="field">
-          <label>Número</label>
-          <input id="mNumber" type="text" disabled />
-        </div>
-        <div class="field">
-          <label>Nombre del comprador</label>
-          <input id="mBuyer" type="text" placeholder="Ej: Juan Pérez" />
-          <div class="noteSmall">Tip: puedes usar “Nombre rápido” para prellenar.</div>
-        </div>
-      </div>
-      <div class="modalFoot">
-        <button class="btn" id="btnCancel" type="button">Cancelar</button>
-        <button class="btn btn-primary" id="btnSave" type="button">Guardar</button>
-      </div>
-    </div>
+<div class="topbar">
+  <div>
+    <h1>Rifa Profondos</h1>
+    <div>100 números · $30.000 c/u · Juega Sábado 4 abril 2026</div>
   </div>
+  <div>
+    <button id="loginBtn" class="login">Iniciar sesión</button>
+    <button id="logoutBtn" class="logout" style="display:none">Cerrar sesión</button>
+  </div>
+</div>
 
-  <script>
-    // ======================
-    // CONFIG
-    // ======================
-    const TOTAL = 100;
+<div id="grid" class="grid"></div>
 
-    // Local (solo en el navegador)
-    const STORAGE_KEY = "rifa_profondos_vendidos_100_v1"; // { "001": {buyer:"Juan"} ... }
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
+import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
-    // ======================
-    // STATE
-    // ======================
-    let soldMap = {};          // number -> { buyer }
-    let pendingAction = null;  // {mode: "sell"|"edit", num: "025"}
+const firebaseConfig = {
+  apiKey: "AIzaSyCRZGRc3BZ470I_6A4voTArXEdIUVJ4KNo",
+  authDomain: "rifa-lety.firebaseapp.com",
+  projectId: "rifa-lety",
+  storageBucket: "rifa-lety.firebasestorage.app",
+  messagingSenderId: "862671491291",
+  appId: "1:862671491291:web:1432835604836b043cbcfe",
+  measurementId: "G-Z6R66ERK4C"
+};
 
-    // ======================
-    // UTIL
-    // ======================
-    const pad3 = (n) => String(n).padStart(3, "0");
-    const escapeHtml = (str) =>
-      (str || "")
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-    function loadState(){
-      try{
-        const raw = localStorage.getItem(STORAGE_KEY);
-        soldMap = raw ? (JSON.parse(raw) || {}) : {};
-      }catch(e){
-        soldMap = {};
-      }
+const grid = document.getElementById("grid");
+let currentUser = null;
+
+// Crear números
+for(let i=1;i<=100;i++){
+  const num = String(i).padStart(3,"0");
+  const div = document.createElement("div");
+  div.className="num";
+  div.id="num-"+num;
+  div.textContent=num;
+  div.onclick=()=>handleClick(num);
+  grid.appendChild(div);
+}
+
+// Escuchar en tiempo real
+const numerosRef = collection(db,"rifas/profondos-abril-4-2026/numeros");
+
+onSnapshot(numerosRef,(snapshot)=>{
+  document.querySelectorAll(".num").forEach(n=>n.classList.remove("sold"));
+  snapshot.forEach(docSnap=>{
+    const num = docSnap.id;
+    const el = document.getElementById("num-"+num);
+    if(el) el.classList.add("sold");
+  });
+});
+
+// Click número
+async function handleClick(num){
+  if(!currentUser){
+    alert("Solo el administrador puede vender números");
+    return;
+  }
+
+  const docRef = doc(db,"rifas/profondos-abril-4-2026/numeros",num);
+  const el = document.getElementById("num-"+num);
+
+  if(el.classList.contains("sold")){
+    if(confirm("¿Desmarcar número?")){
+      await deleteDoc(docRef);
     }
-
-    function saveState(){
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(soldMap));
+  }else{
+    const name = prompt("Nombre del comprador:");
+    if(name){
+      await setDoc(docRef,{buyer:name});
     }
+  }
+}
 
-    function updateStats(){
-      const soldCount = Object.keys(soldMap).length;
-      document.getElementById("soldCount").textContent = soldCount;
-      document.getElementById("freeCount").textContent = TOTAL - soldCount;
-    }
+// LOGIN
+document.getElementById("loginBtn").onclick=async()=>{
+  const email = prompt("Correo:");
+  const pass = prompt("Contraseña:");
+  if(!email || !pass) return;
+  try{
+    await signInWithEmailAndPassword(auth,email,pass);
+  }catch(e){
+    alert("Error login");
+  }
+};
 
-    // ======================
-    // RENDER
-    // ======================
-    function renderGrid(){
-      const grid = document.getElementById("grid");
-      grid.innerHTML = "";
+document.getElementById("logoutBtn").onclick=()=>signOut(auth);
 
-      for(let i=1; i<=TOTAL; i++){
-        const code = pad3(i);
-        const isSold = !!soldMap[code];
-        const buyer = (soldMap[code]?.buyer || "").trim();
+onAuthStateChanged(auth,user=>{
+  currentUser=user;
+  document.getElementById("loginBtn").style.display=user?"none":"inline-block";
+  document.getElementById("logoutBtn").style.display=user?"inline-block":"none";
+});
+</script>
 
-        const div = document.createElement("div");
-        div.className = "num" + (isSold ? " sold" : "");
-        div.dataset.num = code;
-        div.setAttribute("role", "button");
-        div.setAttribute("tabindex", "0");
-
-        div.innerHTML =
-          `<span>${code}</span>` +
-          (buyer ? `<div class="tooltip">${escapeHtml(buyer)}</div>` : "");
-
-        // Clic: vender o desmarcar
-        div.addEventListener("click", () => onClickNumber(code));
-
-        // Doble clic: editar nombre sin desmarcar
-        div.addEventListener("dblclick", (e) => {
-          e.preventDefault();
-          onEditBuyer(code);
-        });
-
-        // Teclado
-        div.addEventListener("keydown", (e) => {
-          if(e.key === "Enter" || e.key === " "){
-            e.preventDefault();
-            onClickNumber(code);
-          }
-        });
-
-        grid.appendChild(div);
-      }
-
-      updateStats();
-      applySearchHighlight();
-    }
-
-    // ======================
-    // SEARCH HIGHLIGHT
-    // ======================
-    function applySearchHighlight(){
-      const q = document.getElementById("search").value.trim().toLowerCase();
-      const nodes = document.querySelectorAll(".num");
-
-      if(!q){
-        nodes.forEach(n => n.classList.remove("hit"));
-        return;
-      }
-
-      const digitsOnly = q.replace(/\D/g, "");
-      const qNum = digitsOnly ? digitsOnly.slice(-3).padStart(3, "0") : null;
-
-      nodes.forEach(n => {
-        const code = n.dataset.num;
-        const buyer = (soldMap[code]?.buyer || "").toLowerCase();
-
-        const matchByNumber = qNum ? (code === qNum || code.includes(digitsOnly)) : false;
-        const matchByBuyer = buyer && buyer.includes(q);
-
-        n.classList.toggle("hit", matchByNumber || matchByBuyer);
-      });
-    }
-
-    // ======================
-    // MODAL
-    // ======================
-    const backdrop = document.getElementById("backdrop");
-    const mNumber = document.getElementById("mNumber");
-    const mBuyer = document.getElementById("mBuyer");
-    const modalTitle = document.getElementById("modalTitle");
-
-    function openModal({ mode, num }){
-      pendingAction = { mode, num };
-
-      const def = document.getElementById("defaultBuyer").value.trim();
-      const current = (soldMap[num]?.buyer || "").trim();
-
-      mNumber.value = num;
-      mBuyer.value = mode === "edit" ? current : (def || current || "");
-
-      modalTitle.textContent = mode === "edit" ? `Editar comprador (${num})` : `Vender número (${num})`;
-
-      backdrop.classList.add("show");
-      backdrop.setAttribute("aria-hidden", "false");
-      setTimeout(() => mBuyer.focus(), 0);
-    }
-
-    function closeModal(){
-      pendingAction = null;
-      backdrop.classList.remove("show");
-      backdrop.setAttribute("aria-hidden", "true");
-      mBuyer.value = "";
-    }
-
-    document.getElementById("btnClose").addEventListener("click", closeModal);
-    document.getElementById("btnCancel").addEventListener("click", closeModal);
-
-    backdrop.addEventListener("click", (e) => {
-      if(e.target === backdrop) closeModal();
-    });
-
-    document.addEventListener("keydown", (e) => {
-      if(e.key === "Escape" && backdrop.classList.contains("show")) closeModal();
-    });
-
-    document.getElementById("btnSave").addEventListener("click", () => {
-      if(!pendingAction) return;
-      const name = (mBuyer.value || "").trim();
-      if(!name){
-        alert("⚠️ Debes escribir el nombre del comprador.");
-        mBuyer.focus();
-        return;
-      }
-
-      soldMap[pendingAction.num] = { buyer: name };
-      saveState();
-      closeModal();
-      renderGrid();
-    });
-
-    // Enter en el input guarda
-    mBuyer.addEventListener("keydown", (e) => {
-      if(e.key === "Enter"){
-        e.preventDefault();
-        document.getElementById("btnSave").click();
-      }
-    });
-
-    // ======================
-    // CLICK LOGIC
-    // ======================
-    function onClickNumber(num){
-      const isSold = !!soldMap[num];
-
-      if(!isSold){
-        openModal({ mode: "sell", num });
-        return;
-      }
-
-      const buyer = soldMap[num]?.buyer || "";
-      const ok = confirm(`El número ${num} está vendido a:\n"${buyer}"\n\n¿Deseas DESMARCARLO (dejarlo disponible)?`);
-      if(!ok) return;
-
-      delete soldMap[num];
-      saveState();
-      renderGrid();
-    }
-
-    function onEditBuyer(num){
-      const isSold = !!soldMap[num];
-      if(!isSold){
-        // si no está vendido, doble clic funciona como vender
-        openModal({ mode: "sell", num });
-        return;
-      }
-      openModal({ mode: "edit", num });
-    }
-
-    // ======================
-    // EXPORT / CLEAR
-    // ======================
-    async function copySold(){
-      const entries = Object.entries(soldMap)
-        .sort((a,b)=> a[0].localeCompare(b[0]))
-        .map(([num, info]) => `${num} — ${info.buyer}`);
-
-      const text =
-`RIFA PROFONDOS — Sala Neurososensorial (Centro Terapéutico)
-100 números (001–100) · Valor $30.000 c/u · Juega Sábado 4 de abril de 2026
-Juega con las 3 últimas cifras de la Lotería de Boyacá
-
-Vendidos (${entries.length}):
-${entries.length ? entries.join("\n") : "(ninguno)"}
-`;
-      try{
-        await navigator.clipboard.writeText(text);
-        alert("✅ Copiado al portapapeles.");
-      }catch(e){
-        const ta = document.createElement("textarea");
-        ta.value = text;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand("copy");
-        ta.remove();
-        alert("✅ Copiado (modo compatibilidad).");
-      }
-    }
-
-    function clearAll(){
-      const ok = confirm("¿Seguro que quieres reiniciar TODO (borrar compradores y dejar 001–100 disponibles)?");
-      if(!ok) return;
-      soldMap = {};
-      saveState();
-      renderGrid();
-    }
-
-    // ======================
-    // INIT
-    // ======================
-    loadState();
-    renderGrid();
-
-    document.getElementById("search").addEventListener("input", applySearchHighlight);
-    document.getElementById("btnExport").addEventListener("click", copySold);
-    document.getElementById("btnClear").addEventListener("click", clearAll);
-  </script>
 </body>
 </html>
