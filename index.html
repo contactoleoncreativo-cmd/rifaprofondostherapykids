@@ -29,20 +29,24 @@ h1{color:#FF0080;margin:0}
   background:#fff;
   border:2px solid #00B6FF;
   transition:0.2s;
+  user-select:none;
 }
-.num:hover{
-  transform:scale(1.05);
-}
+.num:hover{ transform:scale(1.05); }
 .num.sold{
   background:#FF0080;
   color:white;
   border-color:#FF0080;
+}
+.num.hit{
+  outline: 4px solid rgba(0,182,255,.25);
+  box-shadow: 0 0 0 4px rgba(255,0,128,.15);
 }
 .topbar{
   display:flex;
   justify-content:space-between;
   align-items:center;
   flex-wrap:wrap;
+  gap:10px;
 }
 button{
   padding:8px 12px;
@@ -57,6 +61,24 @@ button{
   margin-top:10px;
   font-weight:bold;
 }
+.adminTools{
+  margin-top:10px;
+  display:none;
+  gap:10px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+.adminTools input{
+  padding:10px 12px;
+  border-radius:10px;
+  border:2px solid #00B6FF;
+  min-width: 260px;
+  outline: none;
+}
+.smallNote{
+  font-size:12px;
+  opacity:.75;
+}
 </style>
 </head>
 <body>
@@ -65,6 +87,7 @@ button{
   <div>
     <h1>Rifa Profondos</h1>
     <div class="subtitle">100 números · $30.000 c/u · Juega Sábado 4 abril 2026</div>
+    <div class="smallNote">Público: ve vendidos. Admin: ve nombres y buscador.</div>
   </div>
   <div>
     <button id="loginBtn" class="login">Iniciar sesión</button>
@@ -74,12 +97,18 @@ button{
 
 <div class="info" id="contador"></div>
 
+<!-- Herramientas SOLO admin -->
+<div class="adminTools" id="adminTools">
+  <input id="search" type="text" placeholder="Buscar por número (025) o nombre (Juan)" />
+  <span class="smallNote">Tip: escribir número o nombre resalta coincidencias</span>
+</div>
+
 <div id="grid" class="grid"></div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
-import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot, getDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCRZGRc3BZ470I_6A4voTArXEdIUVJ4KNo",
@@ -97,10 +126,17 @@ const db = getFirestore(app);
 
 const grid = document.getElementById("grid");
 const contador = document.getElementById("contador");
+const adminTools = document.getElementById("adminTools");
+const searchInput = document.getElementById("search");
 
 let currentUser = null;
 
-// Crear números
+// Guardamos el estado en memoria (vendidos + buyer) para:
+/// - mostrar comprador al clic (admin)
+/// - buscar por nombre
+let soldMap = {}; // { "001": {buyer:"Juan"} ... }
+
+// Crear números 001-100
 for(let i=1;i<=100;i++){
   const num = String(i).padStart(3,"0");
   const div = document.createElement("div");
@@ -116,12 +152,20 @@ const numerosRef = collection(db,"rifas/profondos-abril-4-2026/numeros");
 
 // Escuchar cambios en tiempo real
 onSnapshot(numerosRef,(snapshot)=>{
-  document.querySelectorAll(".num").forEach(n=>n.classList.remove("sold"));
+  // reset UI
+  document.querySelectorAll(".num").forEach(n=>{
+    n.classList.remove("sold");
+    n.classList.remove("hit");
+  });
 
+  soldMap = {};
   let vendidos = 0;
 
   snapshot.forEach(docSnap=>{
     const num = docSnap.id;
+    const data = docSnap.data() || {};
+    soldMap[num] = { buyer: data.buyer || "" };
+
     const el = document.getElementById("num-"+num);
     if(el){
       el.classList.add("sold");
@@ -130,31 +174,98 @@ onSnapshot(numerosRef,(snapshot)=>{
   });
 
   contador.textContent = `Vendidos: ${vendidos} / 100`;
+  applySearchHighlight(); // si el admin está buscando, mantener resaltado
 });
 
 // Click número
 async function handleClick(num){
+  const el = document.getElementById("num-"+num);
+  const isSold = el.classList.contains("sold");
+
+  // Público: NO ver nombres, NO editar
   if(!currentUser){
-    alert("Solo el administrador puede vender números");
+    if(isSold){
+      alert(`El número ${num} ya está vendido.`);
+    }else{
+      alert(`El número ${num} está disponible.`);
+    }
     return;
   }
 
+  // Admin:
   const docRef = doc(db,"rifas/profondos-abril-4-2026/numeros",num);
-  const el = document.getElementById("num-"+num);
 
-  if(el.classList.contains("sold")){
-    if(confirm("¿Desmarcar número?")){
-      await deleteDoc(docRef);
+  if(isSold){
+    const buyer = (soldMap[num]?.buyer || "").trim();
+
+    // Mostrar comprador y opciones
+    const action = prompt(
+`Número ${num} (VENDIDO)
+Comprador: ${buyer || "(sin nombre)"}
+
+Escribe:
+1 = Editar nombre
+2 = Desmarcar (dejar disponible)
+(Cancelar = salir)`
+    );
+
+    if(action === "1"){
+      const newName = prompt("Nuevo nombre del comprador:", buyer);
+      if(newName && newName.trim()){
+        await setDoc(docRef, { buyer: newName.trim() }, { merge: true });
+      }
+      return;
     }
-  }else{
-    const name = prompt("Nombre del comprador:");
-    if(name){
-      await setDoc(docRef,{buyer:name});
+
+    if(action === "2"){
+      if(confirm(`¿Seguro que deseas DESMARCAR el número ${num}?`)){
+        await deleteDoc(docRef);
+      }
+      return;
     }
+
+    return; // cancel/otro valor
+  }
+
+  // Admin vender
+  const name = prompt(`Vender número ${num}\nNombre del comprador:`);
+  if(name && name.trim()){
+    await setDoc(docRef,{ buyer: name.trim() });
   }
 }
 
-// LOGIN
+// ======= BUSCADOR (solo admin) =======
+function applySearchHighlight(){
+  // si no es admin, nunca resaltar
+  if(!currentUser){
+    document.querySelectorAll(".num").forEach(n=>n.classList.remove("hit"));
+    return;
+  }
+
+  const q = (searchInput.value || "").trim().toLowerCase();
+  const nodes = document.querySelectorAll(".num");
+
+  if(!q){
+    nodes.forEach(n=>n.classList.remove("hit"));
+    return;
+  }
+
+  // si el query tiene números, normalizamos a 3 dígitos
+  const digitsOnly = q.replace(/\D/g,"");
+  const qNum = digitsOnly ? digitsOnly.slice(-3).padStart(3,"0") : null;
+
+  nodes.forEach(n=>{
+    const code = n.id.replace("num-","");
+    const buyer = (soldMap[code]?.buyer || "").toLowerCase();
+
+    const matchByNumber = qNum ? (code === qNum || code.includes(digitsOnly)) : false;
+    const matchByName = buyer && buyer.includes(q);
+
+    n.classList.toggle("hit", matchByNumber || matchByName);
+  });
+}
+
+// ======= LOGIN =======
 document.getElementById("loginBtn").onclick=async()=>{
   const email = prompt("Correo:");
   const pass = prompt("Contraseña:");
@@ -162,17 +273,31 @@ document.getElementById("loginBtn").onclick=async()=>{
   try{
     await signInWithEmailAndPassword(auth,email,pass);
   }catch(e){
-    alert("Error login");
+    alert("Error login: " + (e.code || e.message));
+    console.error(e);
   }
 };
 
 document.getElementById("logoutBtn").onclick=()=>signOut(auth);
 
 onAuthStateChanged(auth,user=>{
-  currentUser=user;
-  document.getElementById("loginBtn").style.display=user?"none":"inline-block";
-  document.getElementById("logoutBtn").style.display=user?"inline-block":"none";
+  currentUser = user;
+
+  document.getElementById("loginBtn").style.display = user ? "none" : "inline-block";
+  document.getElementById("logoutBtn").style.display = user ? "inline-block" : "none";
+
+  // Mostrar/ocultar herramientas admin
+  adminTools.style.display = user ? "flex" : "none";
+
+  // limpiar buscador cuando sales
+  if(!user){
+    searchInput.value = "";
+  }
+
+  applySearchHighlight();
 });
+
+searchInput.addEventListener("input", applySearchHighlight);
 </script>
 
 </body>
